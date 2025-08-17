@@ -30,3 +30,8 @@ traitlets==5.14.3
 wcwidth==0.2.13
 wheel==0.45.1
 gunicorn
+flask
+scikit-learn
+joblib
+numpy
+pandas
