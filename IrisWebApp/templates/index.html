@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>The Iris Oracle 🌿</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+<style>
+/* --- Reset & Common --- */
+* { box-sizing: border-box; margin:0; padding:0; }
+body { font-family: 'Roboto', sans-serif; transition: all 0.5s ease; overflow-x:hidden; }
+.container { max-width: 900px; margin:auto; text-align:center; padding:50px 20px; position:relative; z-index:2; }
+h1 { font-family: 'Great Vibes', cursive; font-size: 4em; margin-bottom:0.5em; letter-spacing:1px; text-shadow: 0 0 15px #d4b3ff; }
+
+/* Intro Text */
+.intro { font-size: 1.2em; line-height: 1.6em; margin-bottom:20px; }
+.sub-intro { font-size: 1.05em; font-style: italic; margin-bottom:30px; color: #4b0082; }
+
+/* Split Screen Layout */
+.split-hero { display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:30px; margin-bottom:40px; }
+.split-hero .hero-left { 
+    flex: 1; 
+    min-width: 300px; 
+    height: 350px; 
+    border-radius: 20px; 
+    box-shadow: 0 0 25px rgba(209,179,255,0.5); 
+    position: relative; 
+    overflow: hidden; 
+    background: url('https://images.unsplash.com/photo-1589312397744-799d9f9c2944?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover no-repeat; 
+}
+
+/* Magical Glow Overlay */
+.split-hero .hero-left::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle, rgba(255,182,255,0.25), rgba(0,0,0,0));
+    pointer-events: none;
+    animation: glow 3s ease-in-out infinite alternate;
+    border-radius: 20px;
+}
+
+/* Floating Sparkles */
+.split-hero .hero-left::before {
+    content: '';
+    position: absolute;
+    width: 5px; height: 5px;
+    background: #ffe0ff;
+    box-shadow: 50px 100px #ffd1fc, 150px 50px #ffb3ff, 250px 200px #d4b3ff, 350px 120px #ff9cf5;
+    border-radius: 50%;
+    animation: sparkle 4s linear infinite;
+    pointer-events: none;
+}
+
+/* Animations */
+@keyframes glow {
+    0% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+@keyframes sparkle {
+    0% { transform: translateY(0) translateX(0) scale(1); opacity:1; }
+    50% { transform: translateY(-20px) translateX(10px) scale(1.2); opacity:0.7; }
+    100% { transform: translateY(0) translateX(0) scale(1); opacity:1; }
+}
+.split-hero .hero-right { flex:1; min-width:300px; display:flex; flex-direction:column; gap:20px; }
+
+/* Input form */
+.input-form { display:flex; flex-direction:column; gap:12px; max-width:400px; margin:auto; }
+input { padding:10px; font-size:1em; border-radius:12px; border:1px solid #ccc; box-shadow: 0 0 10px rgba(209,179,255,0.5); transition: all 0.3s ease; }
+input:focus { outline:none; border-color:#b19cd9; box-shadow: 0 0 15px rgba(209,179,255,0.8); }
+button { padding:12px 25px; font-size:1.2em; border-radius:12px; border:none; cursor:pointer; transition:0.3s; box-shadow: 0 0 10px rgba(209,179,255,0.7); }
+#predict-btn { background: linear-gradient(45deg,#d4b3ff,#b19cd9); color:#3a0ca3; font-family:'Great Vibes', cursive; display:none; }
+#predict-btn:hover { background: linear-gradient(45deg,#b19cd9,#d4b3ff); box-shadow: 0 0 25px rgba(209,179,255,1); transform: scale(1.05); }
+
+/* Flower Box */
+.flower-box { border:2px dashed #d4b3ff; padding:25px; margin:20px auto; max-width:450px; border-radius:20px; background:rgba(255,240,255,0.25); box-shadow: 0 0 20px rgba(209,179,255,0.4); transition: all 0.5s ease; }
+
+/* Prediction */
+#prediction-result { margin-top:25px; font-size:1.3em; font-style:italic; text-shadow: 0 0 5px #b19cd9; }
+
+/* Music & Theme Buttons */
+#music-btn, #theme-toggle { position:fixed; top:20px; font-size:1.8em; background:none; border:none; cursor:pointer; z-index:10; }
+#music-btn { right:20px; }
+#theme-toggle { left:20px; }
+
+/* --- Backgrounds & Themes --- */
+/* Light theme - pastel magical garden */
+body.light-theme {
+    background: linear-gradient(135deg, #fdf0ff, #e8d4ff, #ffe4f7);
+    color: #4b0082;
+}
+
+/* Dark theme - starry magical night */
+body.dark-theme {
+    background: radial-gradient(circle at 20% 30%, #1b0033 0%, #4b0082 70%, #2a003f 100%);
+    color: #e0c3fc;
+}
+
+/* Floating stars / petals */
+.doodle { position:absolute; border-radius:50%; opacity:0.2; z-index:1; animation: float 6s ease-in-out infinite, twinkle 3s infinite; }
+@keyframes float {
+    0% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(15deg); }
+    100% { transform: translateY(0) rotate(0deg); }
+}
+@keyframes twinkle { 0%,100%{opacity:0.2;} 50%{opacity:0.8;} }
+
+/* Smooth transitions */
+body, .container, input, button, .flower-box, .split-hero .hero-left { transition: all 0.5s ease; }
+
+/* Hover animation for flower box */
+.flower-box:hover { box-shadow: 0 0 30px rgba(209,179,255,0.7); transform: scale(1.02); }
+
+  /* General Button Style (for Know Your Flower, Back Home, etc.) */
+  .btn {
+    display: inline-block;
+    padding: 12px 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 1.1em;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  /* Light Theme Button */
+  body.light-theme .btn {
+    background: linear-gradient(45deg, #f7e6ff, #e8d4ff);
+    color: #4b0082;
+    border: 1px solid #b19cd9;
+    box-shadow: 0 0 10px rgba(209,179,255,0.4);
+  }
+  body.light-theme .btn:hover {
+    background: linear-gradient(45deg, #e8d4ff, #f7e6ff);
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(209,179,255,0.7);
+  }
+
+  /* Dark Theme Button */
+  body.dark-theme .btn {
+    background: rgba(255,255,255,0.1);
+    color: #fff;
+    border: 1px solid #fff;
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+  }
+  body.dark-theme .btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(255,255,255,0.4);
+  }
+
+
+/* Cursor interactive particles */
+</style>
+</head>
+
+<body class="light-theme">
+
+<!-- Music -->
+<audio id="bg-music" src="{{ url_for('static', filename='piano.mp3') }}" loop></audio>
+<button id="music-btn">🔈</button>
+
+<!-- Theme toggle -->
+<button id="theme-toggle">☀️</button>
+
+<!-- Magical Doodles / Floating petals & stars -->
+<div class="doodle" style="width:50px;height:50px;top:50px;left:80px;background:#ff9ce8;"></div>
+<div class="doodle" style="width:30px;height:30px;top:200px;left:300px;background:#b19cd9;"></div>
+<div class="doodle" style="width:40px;height:40px;top:400px;left:600px;background:#90ee90;"></div>
+<div class="doodle" style="width:20px;height:20px;top:100px;left:500px;background:#ffd1dc;"></div>
+<div class="doodle" style="width:25px;height:25px;top:350px;left:150px;background:#dda0dd;"></div>
+
+<!-- Container -->
+<div class="container">
+    <h1>The Iris Oracle 🌿</h1>
+    <p class="intro">
+        Welcome, seeker, to The Iris Oracle 🌿.<br>
+        Numbers whisper, petals tell tales 🌸🔮.<br>
+        Discover the hidden species within your iris!
+    </p>
+    <p class="sub-intro">
+        <em>Feed me the sepal and petal sizes, and I’ll reveal the species of your iris. Can you guess correctly before I do?</em>
+    </p>
+
+    <!-- Split-screen hero -->
+    <div class="split-hero">
+        <div class="hero-left"></div>
+        <div class="hero-right">
+            <div class="flower-box">
+                <a href="/flower" class="btn">🌸 Know Your Flower</a>
+                <p>Discover the magic of each iris species!</p>
+            </div>
+
+            <div class="input-form">
+                <label>Sepal Length (cm): <input type="number" id="sepal-length"></label>
+                <label>Sepal Width (cm): <input type="number" id="sepal-width"></label>
+                <label>Petal Length (cm): <input type="number" id="petal-length"></label>
+                <label>Petal Width (cm): <input type="number" id="petal-width"></label>
+            </div>
+
+            <button id="predict-btn">Whisper the Petal’s Name🌸</button>
+            <div id="prediction-result"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// --- Elements ---
+const sepalLength = document.getElementById('sepal-length');
+const sepalWidth = document.getElementById('sepal-width');
+const petalLength = document.getElementById('petal-length');
+const petalWidth = document.getElementById('petal-width');
+const predictBtn = document.getElementById('predict-btn');
+const predictionResult = document.getElementById('prediction-result');
+
+const musicBtn = document.getElementById('music-btn');
+const bgMusic = document.getElementById('bg-music');
+
+const themeToggle = document.getElementById('theme-toggle');
+const body = document.body;
+
+// --- Show predict button only if all inputs filled ---
+function checkInputs() {
+    if(sepalLength.value && sepalWidth.value && petalLength.value && petalWidth.value) predictBtn.style.display='inline-block';
+    else predictBtn.style.display='none';
+}
+[sepalLength,sepalWidth,petalLength,petalWidth].forEach(input => input.addEventListener('input', checkInputs));
+
+// --- Prediction with all messages included ---
+predictBtn.addEventListener('click', async () => {
+    const data = {
+        sepal_length: parseFloat(sepalLength.value),
+        sepal_width: parseFloat(sepalWidth.value),
+        petal_length: parseFloat(petalLength.value),
+        petal_width: parseFloat(petalWidth.value)
+    };
+
+    const response = await fetch('/predict', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
+
+    const result = await response.json(); // This gets {prediction: "Setosa"/"Versicolor"/"Virginica"}
+    const species = result.prediction.charAt(0).toUpperCase() + result.prediction.slice(1).toLowerCase();
+
+    const messages = {
+        'Setosa': [
+            "✨ Wow! Your flower is most likely a Setosa — delicate and pure!",
+            "🌿 The Iris Oracle whispers: this bloom is a Setosa!",
+            "💫 A gentle breeze reveals your flower is Setosa!"
+        ],
+        'Versicolor': [
+            "🎨 Mystical colors appear… your flower is a Versicolor!",
+            "🌼  The Iris Oracle senses a Versicolor — vibrant and unique!",
+            "✨ Balance and harmony surround your Versicolor bloom!"
+        ],
+        'Virginica': [
+            "🌸 Powerful aura detected! Your flower is a Virginica!",
+            "💎 The Iris Oracle proclaims: this is a Virginica — strong and elegant!",
+            "🌟 Majestic Virginica graces your garden today!"
+        ]
+    };
+
+    // pick a random message from the correct species
+    const message = messages[species][Math.floor(Math.random() * messages[species].length)];
+    predictionResult.innerHTML = `<p>${message}</p>`;
+});
+
+// Initialize button icon
+musicBtn.textContent = '🔈';
+
+// Music toggle button
+musicBtn.addEventListener('click', () => {
+    if (bgMusic.paused) {
+        bgMusic.play().catch(() => { console.log("Click required to play music."); });
+        musicBtn.textContent = '🔊';
+    } else {
+        bgMusic.pause();
+        musicBtn.textContent = '🔈';
+    }
+});
+
+// --- Theme toggle ---
+themeToggle.addEventListener('click', ()=>{
+    body.classList.toggle('dark-theme');
+    body.classList.toggle('light-theme');
+    themeToggle.textContent = body.classList.contains('dark-theme') ? '🌙' : '☀️';
+});
+</script>
+
+</body>
+</html>

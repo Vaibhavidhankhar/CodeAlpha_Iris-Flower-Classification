@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iris Oracle – Know Your Flower </title>
+<style>
+/* Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Open+Sans:wght@400;600&display=swap');
+
+/* Base Styles */
+body {
+  margin: 0;
+  font-family: 'Open Sans', sans-serif;
+  transition: background 1s, color 1s;
+  overflow-x: hidden;
+}
+h1 {
+  text-align: center;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3em;
+  margin-top: 40px;
+  margin-bottom: 20px;
+}
+
+/* Dark Galaxy Theme */
+body.dark {
+  background: radial-gradient(circle at top, #130227, #2a0740);
+  color: #eee;
+}
+body.dark h1 {
+  color: #ff99ff;
+}
+body.dark .flower-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #ff66ff44;
+}
+
+/* Back Home Button */
+.back-home {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  padding: 8px 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid #fff;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  z-index: 1000;
+  transition: 0.3s ease;
+}
+.back-home:hover {
+  background: rgba(255, 255, 255, 0.25);
+  transform: scale(1.05);
+}
+
+/* Light Theme for Back Button */
+body.light .back-home {
+  background: rgba(0, 0, 0, 0.05);
+  border: 1px solid #333;
+  color: #333;
+}
+body.light .back-home:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Galaxy Theme */
+body.dark {
+  background: radial-gradient(circle at top, #130227, #2a0740);
+  color: #eee;
+}
+body.dark h1 {
+  color: #ff99ff;
+}
+body.dark .flower-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid #ff66ff44;
+}
+body.dark .flower-details {
+  background: rgba(255,255,255,0.05);
+  box-shadow: 0 0 20px #ff66ff44;
+}
+body.dark .toggle-btn {
+  background: #ff66ff;
+  color: #fff;
+}
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  animation: float 20s linear infinite;
+}
+@keyframes float {
+  from { transform: translateY(100vh) scale(0.5); }
+  to { transform: translateY(-20vh) scale(1.5); }
+}
+
+/* Light Pastel Theme */
+body.light {
+  background: linear-gradient(135deg, #f7b1cd, #add9ed);
+  color: #292828;
+}
+body.light h1 {
+  color: #cc33cc;
+}
+body.light .flower-card {
+  background: #fff;
+  border: 1px solid #ddd;
+}
+body.light .flower-details {
+  background: #fff;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+body.light .toggle-btn {
+  background: #cc33cc;
+  color: #fff;
+}
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background: #721339(255,255,255,0.1);
+  animation: float 20s linear infinite;
+}
+
+/* Toggle Button */
+.toggle-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: bold;
+  z-index: 999;
+  transition: transform 0.2s;
+}
+.toggle-btn:hover {
+  transform: scale(1.1);
+}
+
+/* Flower Cards */
+.flower-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+.flower-card {
+  width: 200px;
+  padding: 20px;
+  text-align: center;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.flower-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgb(228, 165, 228);
+}
+.flower-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+
+/* Flower Details */
+.flower-details {
+  max-width: 800px;
+  margin: 40px auto;
+  display: none;
+  position: relative;
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+}
+.flower-details img {
+  width: 250px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+.flower-info {
+  flex: 1;
+}
+.flower-info h2 {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.8em;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.close-btn:hover {
+  transform: scale(1.2);
+}
+</style>
+</head>
+<body class="dark">
+
+<button class="toggle-btn" onclick="toggleTheme()">Switch Theme</button>
+<a href="{{ url_for('home') }}" class="btn">⬅ Back to Home</a>
+
+
+<h1> Iris Oracle – Know Your Flower 🌸</h1>
+
+
+<div class="flower-container">
+  <div class="flower-card" onclick="showDetails('setosa')">
+    <img src="https://plus.unsplash.com/premium_photo-1676117275415-cb7cfce24e28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwa" alt="Setosa">
+    <p>Setosa</p>
+  </div>
+  <div class="flower-card" onclick="showDetails('versicolor')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/4/41/Iris_versicolor_3.jpg" alt="Versicolor">
+    <p>Versicolor</p>
+  </div>
+  <div class="flower-card" onclick="showDetails('virginica')">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Iris_virginica.jpg" alt="Virginica">
+    <p>Virginica</p>
+  </div>
+</div>
+
+<div id="details" class="flower-details"></div>
+
+<script>
+const flowerData = {
+  setosa: {
+    name: "Iris Setosa",
+    img: "https://plus.unsplash.com/premium_photo-1676117275415-cb7cfce24e28?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwa",
+    desc: "Iris Setosa is the most delicate of the three. Its bluish-purple petals resemble fairy wings, often found in the cooler regions of the north. Symbolizing innocence and purity, this flower feels like a guardian of the Arctic breeze."
+  },
+  versicolor: {
+    name: "Iris Versicolor",
+    img: "https://upload.wikimedia.org/wikipedia/commons/4/41/Iris_versicolor_3.jpg",
+    desc: "Iris Versicolor glows in shades of violet and blue, with streaks of yellow like lightning across the night sky. Known as the Blue Flag Iris, it embodies balance, harmony, and transformation."
+  },
+  virginica: {
+    name: "Iris Virginica",
+    img: "https://upload.wikimedia.org/wikipedia/commons/9/9f/Iris_virginica.jpg",
+    desc: "Iris Virginica boasts deep royal violet hues, often thriving near water. It symbolizes wisdom, hope, and mystery, as though it carries secrets whispered by rivers and lakes."
+  }
+};
+
+function showDetails(flower) {
+  const detailsDiv = document.getElementById("details");
+  const data = flowerData[flower];
+  detailsDiv.innerHTML = `
+    <span class="close-btn" onclick="closeDetails()">❌</span>
+    <img src="${data.img}" alt="${data.name}">
+    <div class="flower-info">
+      <h2>${data.name}</h2>
+      <p>${data.desc}</p>
+    </div>
+  `;
+  detailsDiv.style.display = "flex";
+  window.scrollTo({ top: detailsDiv.offsetTop - 50, behavior: 'smooth' });
+}
+function closeDetails() {
+  document.getElementById("details").style.display = "none";
+}
+
+function toggleTheme() {
+  document.body.classList.toggle("dark");
+  document.body.classList.toggle("light");
+}
+
+// floating galaxy circles
+for(let i=0;i<20;i++){
+  let circle=document.createElement("div");
+  circle.className="circle";
+  circle.style.width=circle.style.height=Math.random()*40+10+"px";
+  circle.style.left=Math.random()*100+"vw";
+  circle.style.animationDuration=(10+Math.random()*20)+"s";
+  document.body.appendChild(circle);
+}
+</script>
+</body>
+</html>
