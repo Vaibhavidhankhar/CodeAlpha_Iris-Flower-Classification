@@ -5,9 +5,14 @@ import pandas as pd
 app = Flask(__name__)
 
 # Load model, scaler, encoder
-model = joblib.load("iris_model.pkl")
-scaler = joblib.load("scaler.pkl")
-encoder = joblib.load("label_encoder.pkl")
+model_path = os.path.join(os.path.dirname(__file__), "iris_model.pkl") 
+model = joblib.load(model_path) 
+
+scaler_path = os.path.join(os.path.dirname(__file__), "scaler.pkl") 
+scaler = joblib.load(scaler_path) 
+
+label_encoder_path = os.path.join(os.path.dirname(__file__), "label_encoder.pkl") 
+label_encoder = joblib.load(label_encoder_path)
 
 @app.route('/')
 def home():
@@ -34,7 +39,7 @@ def predict():
     prediction = model.predict(scaled_features)[0]
 
     # Decode label (species name)
-    species = encoder.inverse_transform([prediction])[0]
+    species = label_encoder.inverse_transform([prediction])[0]
 
     # Return JSON to JS
     return jsonify({'prediction': species})
