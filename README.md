@@ -145,8 +145,8 @@ http://127.0.0.1:5000
 ## 📬 Contact & Connect
 - Author: Vaibhavi Dhankhar
 - Email: bhavi7677@gmail.com
-- GitHub: Vaibhavi Dhankhar
-- Project Page: GitHub Pages Site
+- GitHub: Vaibhavi Dhankhar [CodeAlpha Iris Flower Classification](https://github.com/Vaibhavidhankhar/CodeAlpha_Iris-Flower-Classification.git)
+- Project Page: GitHub Pages Site [Project Site](https://vaibhavidhankhar.github.io/CodeAlpha_Iris-Flower-Classification/)
 
 ---
 
