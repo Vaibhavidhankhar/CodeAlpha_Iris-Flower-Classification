@@ -50,7 +50,7 @@ It also educates users about the **Iris dataset** and key characteristics of Iri
 
 ## 🎬 Live Demo / GIF
 
-![Demo GIF](https://your-screenshot-or-gif-link-here.gif)  
+![Demo GIF](walkthrough.gif)  
 
 Click the "Try the Iris Classifier 🌿" button below on the project page to access the live ML predictor:
 
